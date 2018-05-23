@@ -25,11 +25,14 @@ var Page = db.define(
     status: {
       type: Sequelize.ENUM('open', 'closed'),
     },
+    tag: {
+      type: Sequelize.ARRAY(Sequelize.STRING),
+    },
   },
   {
     hooks: {
       beforeValidate: (page, options) => {
-        page.urlTitle = generateUrlTitle();
+        page.urlTitle = generateUrlTitle(page.title);
       },
     },
   },
@@ -47,6 +50,17 @@ var User = db.define('user', {
     },
   },
 });
+Page.belongsTo(User, { as: 'author' });
+//para encontrar un tag
+Page.findByTag = function(tagsArray) {
+  Page.findAll({
+    where: {
+      tag: {
+        $overlap: tagsArray,
+      },
+    },
+  });
+};
 
 function generateUrlTitle(title) {
   if (title) {

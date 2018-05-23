@@ -1,9 +1,21 @@
-{% extends "layout.html" %}
+{% extends "layout.html" %} {% block content %}
 
-{% block content %}
-  <h3>Pages</h3>
-  <hr>
-  <ul class="list-unstyled">
-    <!-- PLACEHOLDER LIST OF PAGES -->
-  </ul>
+
+
+<h3>Pages</h3>
+<hr>
+<ul class="list-unstyled">
+
+  {% for page in pages %}
+  <li>
+    <a href={{page.urlTitle}}>{{page.title}}</a>
+  </li>
+  {% endfor %}
+
+</ul>
+
+<form action="/wiki/search" method="get">
+  <input type="text" name="search" placeholder="search tag" class="form-control">
+  <button type="submit" class="btn btn-primary">Submit </button>
+</form>
 {% endblock %}
